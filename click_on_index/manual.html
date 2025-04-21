@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfectly Secret Messaging Toolkit - User Manual</title>
+    <style>
+        /* Basic Reset & Body Styling */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.7;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #343a40; /* Darker gray text */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 900px; /* Slightly wider for better readability */
+            margin: 40px auto;
+            background-color: #ffffff; /* White background for content */
+            padding: 30px 40px;
+            border-radius: 10px; /* Slightly larger radius */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+            border: 1px solid #e9ecef; /* Subtle border */
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 2.25rem; /* Larger main title */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: #212529; /* Very dark gray */
+        }
+        h2 {
+            font-size: 1.5rem; /* Subtitle */
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            color: #495057; /* Medium gray */
+        }
+        h3 {
+            font-size: 1.75rem; /* Section headings */
+            font-weight: 600;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #dee2e6; /* Slightly bolder border */
+            color: #343a40;
+        }
+        h4 {
+            font-size: 1.25rem; /* Sub-section headings */
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #495057;
+        }
+
+        /* Paragraphs */
+        p {
+            margin-bottom: 1.25rem;
+            color: #495057; /* Slightly lighter than headings */
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-bottom: 1.25rem;
+            padding-left: 25px; /* Indentation */
+        }
+        li {
+            margin-bottom: 0.6rem;
+        }
+
+        /* Strong / Bold Text */
+        strong {
+            font-weight: 600;
+            color: #212529; /* Match heading color */
+        }
+
+        /* Inline Code */
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: #e9ecef; /* Lighter gray background */
+            color: #c7254e; /* Bootstrap-like code color */
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 15px;
+            margin: 1.5rem 0;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            border-left-width: 5px;
+        }
+        .alert-heading {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1em;
+        }
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+        .alert-warning .alert-heading { color: #664d03; }
+
+        .alert-danger { /* Used for 'Crucial' */
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+         .alert-danger .alert-heading { color: #58151c; }
+
+        .alert-info { /* Used for 'Note' */
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+        .alert-info .alert-heading { color: #062c33; }
+
+        /* Horizontal Rule */
+        hr {
+            border: 0;
+            border-top: 1px solid #dee2e6;
+            margin: 2.5rem 0;
+        }
+
+        /* Footer Text */
+        .footer-text {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #6c757d; /* Lighter gray */
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .container { padding: 20px; margin: 20px auto; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.3rem; margin-bottom: 2rem; }
+            h3 { font-size: 1.5rem; }
+            h4 { font-size: 1.1rem; }
+        }
+
+    </style>
+</head>
+<body>
+    <a href="/index.html">Main Menu</a>
+    <div class="container">
+
+        <h1>Perfectly Secret Messaging Toolkit</h1>
+        <h2>User Manual</h2>
+
+        <section id="introduction">
+            <h3>1. Introduction</h3>
+            <p>Welcome to the Perfectly Secret Messaging Toolkit! This toolkit allows you to encrypt and decrypt messages using the One-Time Pad (OTP) cipher, which offers mathematically proven perfect secrecy when used correctly.</p>
+
+            <h4>Security Overview:</h4>
+            <ul>
+                <li><strong>One-Time Pad (OTP):</strong> The core of this toolkit is the OTP. When used correctly, it's <strong>uncrackable</strong>. This means that even with unlimited computing power, an attacker cannot gain any information about your original message just by looking at the encrypted text (ciphertext), <strong>as long as the key (the pad) remains secret and is never reused</strong>.</li>
+                <li><strong>Air-Gapped Device:</strong> To maintain the secrecy of the OTP key, it is <strong>essential</strong> to use this toolkit on a device that is <strong>never connected to any network</strong> (internet, Wi-Fi, cellular, Bluetooth, etc.). This is called an "air-gapped" device.<br><strong>Keep the device in airplane mode.</strong></li>
+                <li><strong>QR Code Transfer:</strong> The toolkit uses QR codes for transferring keys and messages between air-gapped devices, avoiding direct network connections.</li>
+            </ul>
+        </section>
+
+        <section id="why-otp">
+            <h3>2. Why is the One-Time Pad Uncrackable?</h3>
+            <p>The One-Time Pad achieves perfect secrecy due to three critical properties:</p>
+            <ol>
+                <li><strong>Truly Random Key:</strong> The key (the "pad") must be generated using a truly random process. This toolkit uses a True Random Number Generator (TRNG) based on image data to create keys. Each character in the key must be completely unpredictable.</li>
+                <li><strong>Key Length:</strong> The key must be at least as long as the message you want to encrypt.</li>
+                <li><strong>Single Use:</strong> The most crucial rule: <strong>A key, or any part of it, must be used ONLY ONCE</strong>. Reusing any part of the key completely destroys the security of <strong>all</strong> messages encrypted with that part.</li>
+            </ol>
+
+            <h4>How it works:</h4>
+            <p>Encryption involves combining your message with the key using a simple XOR operation. Decryption reverses this process using the <strong>exact same key</strong>. Because the key is truly random and used only once, the resulting ciphertext reveals absolutely no statistical patterns related to the original message. Any plaintext message of the same length is equally likely to be the original, making brute-force attacks useless.</p>
+        </section>
+
+        <section id="why-air-gap">
+            <h3>3. Why You NEED an Air-Gapped Device</h3>
+            <p>The strength of OTP relies entirely on the key remaining perfectly secret. If an attacker gets your key, they can decrypt your message.</p>
+            <p>An <strong>air-gapped device</strong> is one that is physically isolated from all external networks. <br><strong>Keep your air-gapped device in Airplane Mode.</strong></p>
+            <ul>
+                <li><strong>No Internet/Wi-Fi/Cellular:</strong> Prevents attackers from remotely accessing the device to steal the key via malware, network sniffing, or exploits.</li>
+                <li><strong>No Bluetooth/NFC:</strong> Prevents short-range wireless attacks.</li>
+            </ul>
+        </section>
+
+        <section id="setup">
+            <h3>4. Setting Up Your Secure Device</h3>
+            <p>For maximum security, follow these steps:</p>
+            <ol>
+                <li><strong>Acquire a Dedicated Device:</strong> Purchase an inexpensive, <strong>new</strong> "pay-as-you-go" Android smartphone. Do <strong>not</strong> activate any cellular service or connect it to Wi-Fi initially. A factory-reset <strong>used</strong> device carries potential risks of prior compromise.</li>
+                <li><strong>Initial Setup (Temporary Connection Required):</strong>
+                    <ul>
+                        <li>You will need a <strong>one-time, brief connection</strong> (preferably via Wi-Fi, not cellular) <strong>only</strong> to download this toolkit onto the device.</li>
+                         <li>
+                            <div class="alert alert-danger" role="alert">
+                              <p class="alert-heading">Crucial</p>
+                              <p>Perform this step BEFORE generating or importing any keys or handling sensitive messages.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Save this toolkit on to the air-gapped device</strong> </li>
+                <li><strong>GO OFFLINE PERMANENTLY:</strong>
+                    <ul>
+                        <li>Immediately after installation, <strong>put the device into Airplane Mode</strong>.</li>
+                        <li>Go into settings and <strong>manually disable Wi-Fi and Bluetooth</strong>. Ensure they do not turn back on automatically.</li>
+                        <li>
+                            <div class="alert alert-danger" role="alert">
+                              <p class="alert-heading">Never Connect Again</p>
+                              <p>Do not take the device out of Airplane Mode or connect it to <strong>any</strong> network or other device via cable (except potentially for charging, if cautious about juice-jacking).</p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>SD Card Storage (Recommended):</strong> For added physical security and easier key management between trusted parties with air-gapped devices:
+                    <ul>
+                        <li>Save the generated <code>pad.txt</code> file (your OTP key) onto a <strong>removable SD card</strong>.</li>
+                        <li>Store the SD card securely when not in use and even break it if there is a threat.</li>
+                        <li>You can physically transfer the SD card to another trusted, air-gapped device running the same toolkit to share the key. <strong>Ensure the recipient device is also permanently air-gapped.</strong></li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <section id="usage">
+            <h3>5. Using the Toolkit (Main Menu)</h3>
+            
+            <ol>
+                <li><strong>Generate Key:</strong>
+                    <ul>
+                        <li>Click the "Generate Key" button.</li>
+                        <li>Select two distinct photos stored on the device. The tool extracts random data from the least significant bits of the image data.</li>
+                        <li>Click "2. Process Image".</li>
+                        <li>Click "3. Export" and save the generated key as a <code>.txt</code> file (e.g., <code>pad.txt</code>), preferably to your removable SD card. <strong>This is your One-Time Pad.</strong></li>
+                    </ul>
+                </li>
+                <li><strong>Shorten Key:</strong>
+                    <ul>
+                        <li>Click the "Shorten Key" button.</li>
+                        <li>If you need a key of a specific length (e.g., for sharing a portion via QR), upload your <code>pad.txt</code>.</li>
+                        <li>Enter the desired character count.</li>
+                        <li>Click "3. Process and Save File". <strong>Overwrite</strong> your original key file with the shortened version. Use with caution.</li>
+                    </ul>
+                </li>
+                <li><strong>Transfer Copy of Key using QR Codes:</strong>
+                    <ul>
+                        <li>Click the "Transfer Copy of Key using QR Codes" button.</li>
+                        <li>Use this ONLY to transfer a key to another <strong>trusted, air-gapped device</strong>.</li>
+                        <li>Select the <code>pad.txt</code> file you want to transfer.</li>
+                        <li>The tool will display the key content as a series of QR codes (100 characters per QR code).</li>
+                        <li>The recipient must use the "Import Key using QR Codes" function on their air-gapped device to scan these codes <strong>in order</strong>.</li>
+                        
+                    </ul>
+                </li>
+                <li><strong>Import Key using QR Codes:</strong>
+                    <ul>
+                        <li>Click the "Import Key using QR Codes" button.</li>
+                        <li>Use this on the recipient's air-gapped device to receive a key.</li>
+                        <li>Click "Start Scan".</li>
+                        <li>Scan all the QR codes presented by the sender's device <strong>in the correct order</strong>. The data will accumulate.</li>
+                        <li>Once all codes are scanned, click "Save QR Data as a Key (.txt)".</li>
+                        <li>Enter a filename (e.g., <code>received_pad.txt</code>) and save it, preferably to a removable SD card.</li>
+
+                    </ul>
+                </li>
+                 <li><strong>Encrypt Message (send a message):</strong>
+                    <ul>
+                        <li>Click the "Encrypt Message (send a message)" button.</li>
+                        <li>Enter your <strong>plaintext message</strong> into the message box. <strong>Note:</strong> The current tool restricts input to Base64 characters (A-Z, a-z, 0-9, +, /, =). You may need to Base64-encode your actual message first using an <strong>offline</strong> tool if it contains other characters.</li>
+                        <li>Select your <code>pad.txt</code> file.</li>
+                        <li>Click "Encrypt, Generate QR & Prepare Updated Key".</li>
+                        <li>The tool will display the <strong>Base64 ciphertext</strong> as one or more QR codes.</li>
+                         <li>
+                            <div class="alert alert-danger" role="alert">
+                              <p class="alert-heading">Crucial: Save Updated Key!</p>
+                              <p>The tool will prompt you to download the <strong>updated key file</strong>. This file has the used portion of the key removed from the beginning. <strong>You MUST save this updated file, overwriting your old <code>pad.txt</code></strong>. Failure to do so will lead to key reuse and compromise security.</p>
+                            </div>
+                        </li>
+                        <li>Use a networked device to take pictures of the encrypted message QR codes and send them to your recipient through any channel (email, chat, etc.). The ciphertext itself is safe to send over insecure channels.</li>
+                    </ul>
+                </li>
+                <li><strong>Decrypt Message (receive a message):</strong>
+                    <ul>
+                        <li>Click the "Decrypt Message (receive a message)" button.</li>
+                        <li>On the recipient's air-gapped device, click "Start Scan".</li>
+                        <li>Scan the QR code(s) containing the ciphertext received from the sender <strong>in order</strong>. The scanned Base64 ciphertext will appear.</li>
+                        <li>Select the correct, corresponding <code>pad.txt</code> file (the one shared with the sender).</li>
+                        <li>Click "Decrypt & Prepare Updated Pad".</li>
+                        <li>The decrypted plaintext message will appear.</li>
+                         <li>
+                            <div class="alert alert-danger" role="alert">
+                              <p class="alert-heading">Crucial: Save Updated Key!</p>
+                              <p>The tool will prompt you to download the <strong>updated key file</strong>. This file has the used portion of the key removed from the beginning. <strong>You MUST save this updated file, overwriting your old <code>pad.txt</code></strong>. Failure to do so will lead to key reuse and compromise security.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Donate BTC to creator:</strong> Click the "Donate BTC to Designer" button to see a Bitcoin address QR for donations.<br><strong>While the Perfectly Secret Messaging Toolkit is provided free of charge, you may wonder why a donation option is available. The creator has invested considerable dedication and technical skill into offering the world a way to communicate with mathematically proven security against interception. If you find this toolkit valuable and appreciate the commitment to providing it freely, consider making a donation as a way to express gratitude and support the creator's work, potentially encouraging future updates and the continued availability of this resource.</strong> </li>
+            </ol>
+        </section>
+
+        <section id="best-practices">
+            <h3>6. Best Practices & Warnings</h3>
+            <ul>
+                 <li>
+                    <div class="alert alert-danger" role="alert">
+                      <p class="alert-heading">NEVER Reuse Key Material</p>
+                      <p>This is the golden rule. The tools help manage this by providing updated key files after encryption/decryption, but you must be diligent in saving and overwriting the correct files.</p>
+                    </div>
+                </li>
+                <li><strong>Ensure True Randomness:</strong> While the image-based TRNG aims for randomness, its quality depends on the input images. Use diverse, complex photos taken by the device itself if possible. Pre-generated, tested random pads from trusted sources are theoretically better if available.</li>
+                <li><strong>Protect the Key:</strong> Although saving the key directly to the device is possible, it is much safer to save it onto a removable SD card. Store this SD card securely and separately from the air-gapped device. For the highest level of key security, keep the SD card in your personal possession. This gives you the ability to physically destroy the card immediately (and consequently the key) if its security is compromised.</li>
+                <li><strong>Air Gap Discipline:</strong> Be extremely strict about keeping the device air-gapped <strong>permanently</strong> after setup.</li>
+                
+            </ul>
+        </section>
+
+        <hr>
+        <p class="footer-text">This manual provides guidance based on the structure of the provided toolkit files and standard cryptographic practices for OTP. Always prioritize the security principles, especially key secrecy and non-reuse, and maintaining the air gap.</p>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us</title>
+    <meta name="theme-color" content="#3367D6">
+    <link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Basic centering */
+        body {
+            text-align: center; /* Center content in the body */
+        }
+        nav ul {
+            list-style: none; /* Remove default list bullets */
+            padding: 0; /* Remove default padding */
+            margin: 0; /* Remove default margin */
+        }
+        nav li {
+             margin-bottom: 10px; /* Add space between buttons */
+        }
+
+        /* Blue button style */
+        .blue-button {
+          display: inline-block; /* Allow setting width/padding */
+          background-color: #007bff; /* Standard blue */
+          color: white; /* White text */
+          padding: 10px 20px; /* Vertical and horizontal padding */
+          text-align: center; /* Center text inside button */
+          text-decoration: none; /* Remove underline from link */
+          border: none; /* No border */
+          border-radius: 5px; /* Rounded corners */
+          cursor: pointer; /* Pointer cursor on hover */
+          transition: background-color 0.3s ease; /* Smooth hover effect */
+          min-width: 200px; /* Ensure buttons have a minimum width */
+          box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        .blue-button:hover {
+          background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Perfectly Secret Messaging Toolkit</h1>
+    <p>Important: Be sure to use a device that stays in <strong>Airplane Mode</strong> and never connects to the internet or a cell tower.</p>
+    <p></p>
+    <nav>
+         <ul>
+             <li><a href="click_on_index/randomcharactergen/trng-image.html" class="blue-button">Generate Key</a></li>
+            <li><a href="click_on_index/shortenkey.html" class="blue-button">Shorten Key</a></li>
+             <li><a href="click_on_index/transferkey.html" class="blue-button">Transfer Copy of Key using QR Codes</a></li>
+             <li><a href="click_on_index/importkey.html" class="blue-button">Import Key using QR Codes</a></li>
+             <li><a href="click_on_index/encrypt.html" class="blue-button">Encrypt Message (send a message)</a></li>
+             <li><a href="click_on_index/decrypt.html" class="blue-button">Decrypt Message (receive a message)</a></li>
+             <li><a href="click_on_index/manual.html" class="blue-button">User Manual</a></li>
+             <li><a href="/click_on_index/Donate.html" class="blue-button">Donate BTC to Designer</a></li>
+        </ul>
+    </nav>
+    
+        <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js') // Make sure this path is correct
+            .then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(error => {
+              console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+      }
+    </script>
+    </body>
+</html>

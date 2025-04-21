@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text File Editor (Single File)</title>
+
+    <style>
+        /* CSS rules previously in style.css */
+        body {
+            font-family: sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align items to the top */
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input[type="file"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        input[type="file"] {
+            padding: 5px; /* Adjust padding for file input */
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .preview {
+            margin-top: 25px;
+            text-align: left;
+            border: 1px solid #eee;
+            background-color: #fafafa;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 200px; /* Limit height */
+            overflow-y: auto; /* Add scroll if content overflows */
+        }
+        .preview h2 {
+            margin-top: 0;
+            font-size: 1em;
+            color: #444;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        .preview pre {
+            white-space: pre-wrap; /* Wrap long lines */
+            word-wrap: break-word; /* Break long words */
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        /* Hide previews initially */
+        #originalPreview, #modifiedPreview {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+            <a href=/index.html>Main Menu</a>
+        <h1>One Time Pad Key Shortener</h1>
+
+        <div class="input-group">
+            <label for="fileInput">1. Upload your .txt file:</label>
+            <input type="file" id="fileInput" accept=".txt" required>
+        </div>
+
+        <div class="input-group">
+            <label for="charCountInput">2. Enter desired character count:</label>
+            <input type="number" id="charCountInput" min="0" placeholder="e.g., 1000" required>
+        </div>
+
+        <button id="processButton">3. Process and Save File</button>
+
+        <div id="statusMessage" class="status"></div>
+        <div id="originalPreview" class="preview">
+            <h2>Original Content (Preview)</h2>
+            <pre></pre>
+        </div>
+         <div id="modifiedPreview" class="preview">
+            <h2>Modified Content (Preview)</h2>
+            <pre></pre>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript code previously in script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('fileInput');
+            const charCountInput = document.getElementById('charCountInput');
+            const processButton = document.getElementById('processButton');
+            const statusMessage = document.getElementById('statusMessage');
+            const originalPreviewDiv = document.getElementById('originalPreview');
+            const modifiedPreviewDiv = document.getElementById('modifiedPreview');
+            const originalPreviewPre = originalPreviewDiv.querySelector('pre');
+            const modifiedPreviewPre = modifiedPreviewDiv.querySelector('pre');
+
+            let originalFileName = ''; // Store the original file name
+
+            fileInput.addEventListener('change', () => {
+                // Clear status and previews when a new file is selected
+                clearStatusAndPreviews();
+                const file = fileInput.files[0];
+                if (file) {
+                    originalFileName = file.name; // Store the name
+                } else {
+                    originalFileName = '';
+                }
+            });
+
+            charCountInput.addEventListener('input', clearStatusAndPreviews); // Clear status on count change
+
+            processButton.addEventListener('click', () => {
+                clearStatusAndPreviews(); // Clear previous results first
+
+                const file = fileInput.files[0];
+                const targetCharCountStr = charCountInput.value;
+
+                // --- Input Validation ---
+                if (!file) {
+                    showStatus('Please select a .txt file first.', 'error');
+                    return;
+                }
+                if (!originalFileName) { // Ensure file name was captured
+                    originalFileName = file.name;
+                }
+                if (targetCharCountStr.trim() === '') {
+                    showStatus('Please enter the desired character count.', 'error');
+                    return;
+                }
+
+                const targetCharCount = parseInt(targetCharCountStr, 10);
+
+                if (isNaN(targetCharCount) || targetCharCount < 0) {
+                    showStatus('Please enter a valid non-negative number for the character count.', 'error');
+                    return;
+                }
+
+                // --- File Reading ---
+                const reader = new FileReader();
+
+                reader.onload = (event) => {
+                    const originalContent = event.target.result;
+                    let modifiedContent = '';
+
+                    // --- Text Processing ---
+                    if (originalContent.length > targetCharCount) {
+                        // Truncate the content
+                        modifiedContent = originalContent.substring(0, targetCharCount);
+                    } else if (originalContent.length < targetCharCount) {
+                        // Pad the content with spaces
+                        modifiedContent = originalContent.padEnd(targetCharCount, ' ');
+                    } else {
+                        // Content length is already correct
+                        modifiedContent = originalContent;
+                    }
+
+                    // --- Show Previews ---
+                    originalPreviewPre.textContent = originalContent;
+                    modifiedPreviewPre.textContent = modifiedContent;
+                    originalPreviewDiv.style.display = 'block';
+                    modifiedPreviewDiv.style.display = 'block';
+
+
+                    // --- File Saving (Download Trigger) ---
+                    try {
+                        const blob = new Blob([modifiedContent], { type: 'text/plain;charset=utf-8' });
+                        const url = URL.createObjectURL(blob);
+
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = originalFileName; // Use the stored original file name!
+                        document.body.appendChild(link); // Required for Firefox
+                        link.click();
+
+                        // Clean up
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+
+                        showStatus(`File processed and download started as "${originalFileName}".`, 'success');
+
+                    } catch (error) {
+                        console.error("Error creating or downloading file:", error);
+                        showStatus('Error processing or saving the file. See console for details.', 'error');
+                    }
+                };
+
+                reader.onerror = (event) => {
+                    console.error("File could not be read! Code " + event.target.error.code, event.target.error);
+                    showStatus('Error reading the file.', 'error');
+                    clearStatusAndPreviews(false); // Keep error message
+                };
+
+                 reader.onabort = () => {
+                    showStatus('File reading was aborted.', 'error');
+                    clearStatusAndPreviews(false); // Keep error message
+                 };
+
+                reader.readAsText(file); // Read the file as text
+            });
+
+            function showStatus(message, type = 'info') { // type can be 'info', 'success', 'error'
+                statusMessage.textContent = message;
+                statusMessage.className = `status ${type}`; // Apply CSS class for styling
+                statusMessage.style.display = 'block';
+            }
+
+            function clearStatusAndPreviews(clearStatusMsg = true) {
+                if (clearStatusMsg) {
+                    statusMessage.textContent = '';
+                    statusMessage.style.display = 'none';
+                    statusMessage.className = 'status'; // Reset class
+                }
+                originalPreviewPre.textContent = '';
+                modifiedPreviewPre.textContent = '';
+                originalPreviewDiv.style.display = 'none';
+                modifiedPreviewDiv.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>
